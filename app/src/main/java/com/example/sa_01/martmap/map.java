@@ -17,7 +17,6 @@ import android.widget.ImageView;
 
 
 public class map extends AppCompatActivity {
-    ImageView myImageView;
     Bitmap iBitmap;
     Canvas iCanvas;
     Paint paint;
@@ -40,7 +39,6 @@ public class map extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         BitmapImageView vm = new BitmapImageView(this);
         setContentView(vm);
-    //   myImageView.setImageBitmap(iBitmap);
         distCurrent = 1; //Dummy default distance
         dist0 = 1;   //Dummy default distance
         touchState = IDLE;
@@ -218,9 +216,10 @@ public class map extends AppCompatActivity {
                 }
                 bmpWidth = iBitmap.getWidth();
                 bmpHeight = iBitmap.getHeight();
-
-                  // drawMatrix();
-                //myImageView.setOnTouchListener(MyOnTouchListener);
+                Log.i("bmpWidth", String.valueOf(bmpWidth));
+                Log.i("bmpHeight", String.valueOf(bmpHeight));
+                   drawMatrix();
+                setOnTouchListener(MyOnTouchListener);
             }
         }
 
@@ -235,7 +234,7 @@ public class map extends AppCompatActivity {
             int newHeight = (int) (bmpHeight * curScale);
             int newWidth = (int) (bmpWidth * curScale);
             resizedBitmap = Bitmap.createScaledBitmap(iBitmap, newWidth, newHeight, true);
-            myImageView.setImageBitmap(resizedBitmap);
+            iCanvas.drawBitmap(iBitmap, 0, 0, null);
         }
 
         OnTouchListener MyOnTouchListener
