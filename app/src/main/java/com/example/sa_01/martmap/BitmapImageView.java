@@ -42,7 +42,6 @@ public class BitmapImageView extends View {
     float dist0, distCurrent = 1;
     int touchState = IDLE;
     int buttonState = 1;
-    int state = 1;
 
     int startX = 99;
     int startY = 77;
@@ -173,9 +172,6 @@ public class BitmapImageView extends View {
         super.onDraw(canvas);
         Log.i("OnDraw", "enter");
 
-        maps[84][34] = 3;
-        maps[54][22] = 3;
-
         iBitmap = Bitmap.createBitmap(bmpWidth, bmpHeight, Bitmap.Config.ARGB_8888);
         iCanvas.setBitmap(iBitmap);
         linepaint.setColor(Color.rgb(128, 128, 128));  // 회색 (테이블간 경계선)
@@ -183,7 +179,8 @@ public class BitmapImageView extends View {
         textpaint.setColor(Color.rgb(0, 0, 0));          // 검정색 (텍스트)
         textpaint.setTypeface(Typeface.create((String) null, Typeface.BOLD));
 
-            print();
+        print();
+
         if (buttonState == 1) {
 
             startX = 99;
@@ -194,8 +191,6 @@ public class BitmapImageView extends View {
             find(startY, startX);
         }
 
-        Log.i("X", String.valueOf(bmpx - diffX));
-        Log.i("Y", String.valueOf(bmpy - diffY));
         if (iBitmap != null) {
             canvas.save();
             canvas.drawBitmap(iBitmap, bmpx - diffX, bmpy - diffY, null);
@@ -417,25 +412,21 @@ public class BitmapImageView extends View {
             GoalXValue = abs(GoalX - (x + 1));
             GoalYValue = abs(GoalY - y);
             RightValue = NowValue + GoalXValue + GoalYValue;
-            Log.i("RightValue", String.valueOf(RightValue));
         }
         if (x - 1 >= 0 && maps[y][x - 1] != 1 && f[y][x - 1] == 0) {
             GoalXValue = abs(GoalX - (x - 1));
             GoalYValue = abs(GoalY - y);
             LeftValue = NowValue + GoalXValue + GoalYValue;
-            Log.i("LeftValue", String.valueOf(LeftValue));
         }
         if (y - 1 >= 0 && maps[y - 1][x] != 1 && f[y - 1][x] == 0) {
             GoalXValue = abs(GoalX - x);
             GoalYValue = abs(GoalY - (y - 1));
             TopValue = NowValue + GoalXValue + GoalYValue;
-            Log.i("TopValue", String.valueOf(TopValue));
         }
         if (y + 1 < 100 && maps[y + 1][x] != 1 && f[y + 1][x] == 0) {
             GoalXValue = abs(GoalX - x);
             GoalYValue = abs(GoalY - (y + 1));
             BottomValue = NowValue + GoalXValue + GoalYValue;
-            Log.i("BottomValue", String.valueOf(BottomValue));
         }
     } // 이동 평가 함수
 
@@ -448,11 +439,6 @@ public class BitmapImageView extends View {
         f[y][x] = 1;
         NowValue++;
 
-        Log.i("--------------------", "--------------------------");
-        Log.i("nowx", String.valueOf(x));
-        Log.i("nowy", String.valueOf(y));
-        Log.i("다음목적지x", String.valueOf(GoalX));
-        Log.i("다음목적지y", String.valueOf(GoalY));
         if (y == GoalY && x == GoalX) {
             for (int i = 0; i < 100; i++) {
                 for (int j = 0; j < 100; j++) {
@@ -491,12 +477,10 @@ public class BitmapImageView extends View {
     void LeftMoveAssess(int starty, int startx, int y, int x) {
         if (GoalX <= startx) {
             if (GoalY <= starty) {
-                Log.i("왼쪽", "상단");
                 if (RightValue != 0) {
                     if (LeftValue == 0 || (LeftValue != 0 && RightValue < LeftValue)) {
                         if (TopValue == 0 || (TopValue != 0 && RightValue < TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && RightValue <= BottomValue)) {
-                                Log.i("RightValue go", String.valueOf(RightValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), (x + 1) * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x + 1);
                             }
@@ -507,7 +491,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && LeftValue <= RightValue)) {
                         if (TopValue == 0 || (TopValue != 0 && LeftValue <= TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && LeftValue <= BottomValue)) {
-                                Log.i("LeftValue go", String.valueOf(LeftValue));
                                 iCanvas.drawLine((x - 1) * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x - 1);
                             }
@@ -518,7 +501,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && TopValue <= RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && TopValue < LeftValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && TopValue <= BottomValue)) {
-                                Log.i("TopValue go", String.valueOf(TopValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), (y - 1) * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y - 1, x);
                             }
@@ -529,7 +511,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && BottomValue < RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && BottomValue < LeftValue)) {
                             if (TopValue == 0 || (TopValue != 0 && BottomValue < TopValue)) {
-                                Log.i("BottomValue go", String.valueOf(BottomValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), (y + 1) * (bmpHeight / 100), linepaint);
                                 find(y + 1, x);
                             }
@@ -537,12 +518,10 @@ public class BitmapImageView extends View {
                     }
                 }
             } else if (GoalY > starty) {
-                Log.i("왼쪽", "하단");
                 if (RightValue != 0) {
                     if (LeftValue == 0 || (LeftValue != 0 && RightValue < LeftValue)) {
                         if (TopValue == 0 || (TopValue != 0 && RightValue <= TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && RightValue < BottomValue)) {
-                                Log.i("RightValue go", String.valueOf(RightValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), (x + 1) * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x + 1);
                             }
@@ -553,7 +532,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && LeftValue <= RightValue)) {
                         if (TopValue == 0 || (TopValue != 0 && LeftValue <= TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && LeftValue <= BottomValue)) {
-                                Log.i("LeftValue go", String.valueOf(LeftValue));
                                 iCanvas.drawLine((x - 1) * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x - 1);
                             }
@@ -564,7 +542,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && TopValue < RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && TopValue < LeftValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && TopValue < BottomValue)) {
-                                Log.i("TopValue go", String.valueOf(TopValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), (y - 1) * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y - 1, x);
                             }
@@ -575,7 +552,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && BottomValue <= RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && BottomValue < LeftValue)) {
                             if (TopValue == 0 || (TopValue != 0 && BottomValue <= TopValue)) {
-                                Log.i("BottomValue go", String.valueOf(BottomValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), (y + 1) * (bmpHeight / 100), linepaint);
                                 find(y + 1, x);
                             }
@@ -589,12 +565,10 @@ public class BitmapImageView extends View {
     void RightMoveAssess(int starty, int startx, int y, int x) {
         if (GoalX > startx) {
             if (GoalY <= starty) {
-                Log.i("오른쪽", "상단");
                 if (RightValue != 0) {
                     if (LeftValue == 0 || (LeftValue != 0 && RightValue <= LeftValue)) {
                         if (TopValue == 0 || (TopValue != 0 && RightValue <= TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && RightValue <= BottomValue)) {
-                                Log.i("RightValue go", String.valueOf(RightValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), (x + 1) * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x + 1);
                             }
@@ -605,7 +579,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && LeftValue < RightValue)) {
                         if (TopValue == 0 || (TopValue != 0 && LeftValue < TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && LeftValue <= BottomValue)) {
-                                Log.i("LeftValue go", String.valueOf(LeftValue));
                                 iCanvas.drawLine((x - 1) * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x - 1);
                             }
@@ -616,7 +589,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && TopValue < RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && TopValue <= LeftValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && TopValue <= BottomValue)) {
-                                Log.i("TopValue go", String.valueOf(TopValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), (y - 1) * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y - 1, x);
                             }
@@ -627,7 +599,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && BottomValue < RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && BottomValue < LeftValue)) {
                             if (TopValue == 0 || (TopValue != 0 && BottomValue < TopValue)) {
-                                Log.i("BottomValue go", String.valueOf(BottomValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), (y + 1) * (bmpHeight / 100), linepaint);
                                 find(y + 1, x);
                             }
@@ -635,12 +606,10 @@ public class BitmapImageView extends View {
                     }
                 }
             } else if (GoalY > starty) {
-                Log.i("오른쪽", "하단");
                 if (RightValue != 0) {
                     if (LeftValue == 0 || (LeftValue != 0 && RightValue <= LeftValue)) {
                         if (TopValue == 0 || (TopValue != 0 && RightValue <= TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && RightValue <= BottomValue)) {
-                                Log.i("RightValue go", String.valueOf(RightValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), (x + 1) * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x + 1);
                             }
@@ -651,7 +620,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && LeftValue < RightValue)) {
                         if (TopValue == 0 || (TopValue != 0 && LeftValue <= TopValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && LeftValue < BottomValue)) {
-                                Log.i("LeftValue go", String.valueOf(LeftValue));
                                 iCanvas.drawLine((x - 1) * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y, x - 1);
                             }
@@ -662,7 +630,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && TopValue < RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && TopValue < LeftValue)) {
                             if (BottomValue == 0 || (BottomValue != 0 && TopValue < BottomValue)) {
-                                Log.i("TopValue go", String.valueOf(TopValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), (y - 1) * (bmpHeight / 100), x * (bmpWidth / 100), y * (bmpHeight / 100), linepaint);
                                 find(y - 1, x);
                             }
@@ -673,7 +640,6 @@ public class BitmapImageView extends View {
                     if (RightValue == 0 || (RightValue != 0 && BottomValue < RightValue)) {
                         if (LeftValue == 0 || (LeftValue != 0 && BottomValue <= LeftValue)) {
                             if (TopValue == 0 || (TopValue != 0 && BottomValue <= TopValue)) {
-                                Log.i("BottomValue go", String.valueOf(BottomValue));
                                 iCanvas.drawLine(x * (bmpWidth / 100), y * (bmpHeight / 100), x * (bmpWidth / 100), (y + 1) * (bmpHeight / 100), linepaint);
                                 find(y + 1, x);
                             }
@@ -713,7 +679,6 @@ public class BitmapImageView extends View {
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     //A pressed gesture has started, the motion contains the initial starting location.
-                    Log.i("touch", "enter");
                     bmpsavex = event.getX();
                     bmpsavey = event.getY();
                     touchState = TOUCH;
@@ -743,7 +708,11 @@ public class BitmapImageView extends View {
                         diffX = bmpsavex-bmpmovex;
                         diffY = bmpsavey-bmpmovey;
 
-                        drawMoveMatrix();
+                        if(bmpy - diffY + bmpHeight >= bmpHeight-50 && bmpy - diffY + bmpHeight <= bmpHeight+50) { // y축 제한
+                            if(bmpx - diffX <= 50) {
+                                drawMoveMatrix();
+                            }
+                        }
                     }
                     break;
                 case MotionEvent.ACTION_UP:
