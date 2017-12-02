@@ -10,18 +10,18 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/길찾기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="135dp"
+            android:layout_height="100dp"
             android:text="길찾기"/>
         <Button
             android:id="@+id/장바구니"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="135dp"
+            android:layout_height="100dp"
             android:text="장바구니"/>
         <Button
             android:id="@+id/물품재등록"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="135dp"
+            android:layout_height="100dp"
             android:text="물품재등록"/>
     </LinearLayout>
 

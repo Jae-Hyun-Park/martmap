@@ -38,7 +38,7 @@ public class BitmapImageView extends View {
     final int PINCH = 2;
     float dist0, distCurrent = 1;
     int touchState = IDLE;
-    int buttonState = 1;
+    int buttonState = 0;
 
     int startX = 99;
     int startY = 77;
@@ -171,6 +171,7 @@ public class BitmapImageView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Log.i("OnDraw", "enter");
+        Log.i("buttonstate", Integer.toString(buttonState));
 
         iBitmap = Bitmap.createBitmap(bmpWidth, bmpHeight, Bitmap.Config.ARGB_8888);
         iCanvas.setBitmap(iBitmap);
@@ -691,10 +692,8 @@ public class BitmapImageView extends View {
                         diffY = bmpsavey-bmpmovey;
 
                         if(bmpy - diffY + bmpHeight >= bmpHeight-50 && bmpy - diffY + bmpHeight <= bmpHeight+50) { // y축 제한
-                            Log.i("bmpx - diffX", (Float.toString(bmpx - diffX)));
-                            if(bmpx - diffX <= 50 && 1390 <= bmpx - diffX + bmpWidth) {
+                            if(bmpx - diffX <= 50 && 1390 <= bmpx - diffX + bmpWidth) {                    // x축 제한
                                 drawMoveMatrix();
-
                             }
                         }
                     }
