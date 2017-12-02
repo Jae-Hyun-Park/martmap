@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sa_01.martmap.map">
+    android:orientation="vertical">
 
-    <com.example.sa_01.martmap.map.BitmapImageView
-        android:id="@+id/BI"
-        android:layout_width="880dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
-</android.support.constraint.ConstraintLayout>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/길찾기"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="길찾기"/>
+        <Button
+            android:id="@+id/장바구니"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="장바구니"/>
+        <Button
+            android:id="@+id/물품재등록"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="물품재등록"/>
+    </LinearLayout>
+
+    <com.example.sa_01.martmap.BitmapImageView
+        android:id="@+id/BI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

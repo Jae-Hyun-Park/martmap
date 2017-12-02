@@ -10,8 +10,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import static java.lang.Math.abs;
 
@@ -21,7 +19,6 @@ import static java.lang.Math.abs;
 
 public class BitmapImageView extends View {
 
-    map mp;
     Bitmap iBitmap;
     Canvas iCanvas = new Canvas();
     Paint paint = new Paint();
@@ -164,7 +161,10 @@ public class BitmapImageView extends View {
 
     public BitmapImageView(Context context, AttributeSet attr) {
         super(context, attr);
-        mp = (map)context;
+    }
+
+    public BitmapImageView(Context context, AttributeSet attr, int ref){
+        super(context, attr, ref);
     }
 
     @Override
@@ -185,7 +185,6 @@ public class BitmapImageView extends View {
 
             startX = 99;
             startY = 77;
-
             assess(startY, startX);
             linepaint.setColor(Color.rgb(255, 0, 0));  // 회색 (테이블간 경계선)
             find(startY, startX);
@@ -194,23 +193,6 @@ public class BitmapImageView extends View {
         if (iBitmap != null) {
             canvas.save();
             canvas.drawBitmap(iBitmap, bmpx - diffX, bmpy - diffY, null);
-
-            //  Button btn1 = new Button(mp);
-            //   btn1.setText("길찾기");
-
-            //   Button btn2 = new Button(mp);
-            // btn1.setText("물품재등록");
-
-            // Button btn3 = new Button(mp);
-            //  btn1.setText("장바구니");
-
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            //  btn1.setLayoutParams(lp);
-            //  btn2.setLayoutParams(lp);
-            //  btn3.setLayoutParams(lp);
-            //  ((RelativeLayout) this.getParent()).addView(btn1);
-            //  ((RelativeLayout) this.getParent()).addView(btn2);
-            //   ((RelativeLayout) this.getParent()).addView(btn3);
         }
         bmpWidth = iBitmap.getWidth();
         bmpHeight = iBitmap.getHeight();
