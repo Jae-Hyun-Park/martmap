@@ -173,6 +173,8 @@ public class BitmapImageView extends View {
         Log.i("OnDraw", "enter");
         Log.i("buttonstate", Integer.toString(buttonState));
 
+        maps[54][20] = 3;
+
         iBitmap = Bitmap.createBitmap(bmpWidth, bmpHeight, Bitmap.Config.ARGB_8888);
         iCanvas.setBitmap(iBitmap);
         linepaint.setColor(Color.rgb(128, 128, 128));  // 회색 (테이블간 경계선)
