@@ -9,6 +9,7 @@ public class map extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         vm = new BitmapImageView(this);
 
         setContentView(vm);

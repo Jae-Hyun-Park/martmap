@@ -709,8 +709,10 @@ public class BitmapImageView extends View {
                         diffY = bmpsavey-bmpmovey;
 
                         if(bmpy - diffY + bmpHeight >= bmpHeight-50 && bmpy - diffY + bmpHeight <= bmpHeight+50) { // y축 제한
-                            if(bmpx - diffX <= 50) {
+                            Log.i("bmpx - diffX", (Float.toString(bmpx - diffX)));
+                            if(bmpx - diffX <= 50 && 1390 <= bmpx - diffX + bmpWidth) {
                                 drawMoveMatrix();
+
                             }
                         }
                     }
