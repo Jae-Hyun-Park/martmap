@@ -39,6 +39,8 @@ public class BitmapImageView extends View {
     float dist0, distCurrent = 1;
     int touchState = IDLE;
     int buttonState = 0;
+    int tempWidth = bmpWidth;  // 초기값 저장   *************************************추가
+    int tempHeight = bmpHeight;  // 초기값 저장 ************************************추가
 
     int startX = 99;
     int startY = 77;
@@ -638,15 +640,14 @@ public class BitmapImageView extends View {
     protected void drawMatrix() {
         Log.i("drawMatrix", "enter");
         float curScale = distCurrent / dist0;
-        if (curScale < 0.1) {
-            curScale = 0.1f;
-        }
-
         int newHeight = (int) (bmpHeight * curScale);
         int newWidth = (int) (bmpWidth * curScale);
-        bmpWidth = newWidth;
-        bmpHeight = newHeight;
-        invalidate();
+
+        if ((newWidth > tempWidth * 0.7 || newHeight > tempHeight * 0.7) && (newWidth < tempWidth * 2 || newHeight < tempHeight * 2)) {  // 확대 축소 제한 *********** 추가
+            bmpWidth = newWidth;
+            bmpHeight = newHeight;
+            invalidate();
+        }
     } // 지도 확대 축소 함수
 
     protected void drawMoveMatrix() {
@@ -693,16 +694,19 @@ public class BitmapImageView extends View {
                         diffX = bmpsavex-bmpmovex;
                         diffY = bmpsavey-bmpmovey;
 
-                        if(bmpy - diffY + bmpHeight >= bmpHeight-50 && bmpy - diffY + bmpHeight <= bmpHeight+50) { // y축 제한
-                            if(bmpx - diffX <= 50 && 1390 <= bmpx - diffX + bmpWidth) {                    // x축 제한
+                        //if(bmpx - diffX <= 30 && bmpx - diffX >= 1440 - bmpWidth) {   // x축 제한
+                      //      if(bmpy - diffY <= 30 && bmpy - diffY >= 2280 - bmpHeight) { // y축 제한
                                 drawMoveMatrix();
-                            }
-                        }
+                     //       }
+                      //  }
                     }
+                 //   a = 2000 - 580 = bmpWidth - bmpx + diffx
                     break;
                 case MotionEvent.ACTION_UP:
                     //A pressed gesture has finished.
                     touchState = IDLE;
+                    bmpsavex = bmpmovex;
+                    bmpsavey = bmpmovey;
                     break;
                 case MotionEvent.ACTION_POINTER_UP:
                     //A non-primary pointer has gone up.
